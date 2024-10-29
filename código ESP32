@@ -1,0 +1,48 @@
+// Librerías 
+#include <Arduino.h>
+#include <HardwareSerial.h>
+
+// variables globales
+// Potenciómetros
+#define P1 36
+#define P2 39
+// Pines de UART
+#define TX 17
+#define RX 16
+// Se define el puerto serial a utilizar para la comunicación UART
+HardwareSerial pot(2);
+
+void setup() {
+  // inicia la conexión serial con la comptadora
+  Serial.begin(115200);
+  // Se configura el UART
+  pot.begin(115200, SERIAL_8N1, RX, TX);
+  // Se define el funcionamiento de los potenciómetros
+  pinMode(pot1,INPUT); 
+  pinMode(pot2,INPUT);
+}
+
+void loop() {
+  // Lee el valor de los potenciómetros
+
+ // Lee los valores de los potenciómetros conectados a P1 y P2
+int D1 = analogRead(P1);  // Lee el valor analógico del potenciómetro 1
+int D2 = analogRead(P2);  // Lee el valor analógico del potenciómetro 2
+
+// Escala los valores leídos de un rango de 0 a 4095 a un rango de 0 a 15
+int pot = map(s1, 0, 4095, 0, 15);  
+int pot = map(s2, 0, 4095, 0, 15);  
+
+// Muestra los valores escalados en el monitor serial
+Serial.print(pot1);        // Imprime el valor del potenciómetro 1
+Serial.print(',');         // Imprime una coma para separar los valores
+Serial.println(pot2);       // Imprime el valor del potenciómetro 2 en una nueva línea
+
+// Envía los valores de los potenciómetros a otro proceso o núcleo
+pot.write(pot1);            // Escribe el valor del potenciómetro 1
+pot.write(´,');            // Escribe una coma como separador
+pot.write(pot2);            // Escribe el valor del potenciómetro 2
+
+// Pausa de 1 segundo para evitar lecturas continuas
+delay(1000); 
+}
